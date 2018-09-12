@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	</link>
+</h:head>
+
+
+<h:body>
+	<h:form id="itemisation">
+		<h:panelGroup layout="block" id="creation">
+			<h:graphicImage value="#{DynamicsBean.listStatus}" />
+			<h:inputText value="#{itemBeanManager.newItemDescription}"
+				id="newItem" />
+			<h:commandButton action="#{itemBeanManager.createItem}" value="Add">
+				<f:ajax execute="newItem" render="itemisation" />
+			</h:commandButton>
+		</h:panelGroup>
+
+		<h:panelGroup layout="block" id="listing">
+			<ui:repeat var="item" value="${itemBeanManager.getItems()}">
+				<h:column>
+					<h:inputText value="#{item.description}">
+						<f:ajax event="blur" execute="@this" render="@this" />
+					</h:inputText>
+				</h:column>
+			</ui:repeat>
+		</h:panelGroup>
+	</h:form>
+</h:body>
+</html>
