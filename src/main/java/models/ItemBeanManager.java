@@ -1,9 +1,13 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -11,7 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Named
-public class ItemBeanManager {
+@SessionScoped
+public class ItemBeanManager implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ItemBeanManager.class);
 	
@@ -36,34 +43,26 @@ public class ItemBeanManager {
 		return items;
 	}
 	
-	public String createItem() {
-		ItemBean newItem = new ItemBean(idCount, newItemDescription, true);
-		idCount=idCount++;
-		items.add(newItem);
-		LOGGER.info("newItemDescription = "+ newItemDescription);
-		LOGGER.info("nouvelle tache : " + newItem);
-		clear();
-		return "#";
+	public void createItem(AjaxBehaviorEvent event) throws AbortProcessingException {
+		LOGGER.info("on est dans le create");
+//		if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+//			LOGGER.info("newItemDescription = "+ newItemDescription);
+//			ItemBean newItem = new ItemBean(idCount, newItemDescription, true);
+//			idCount=idCount++;
+//			items.add(newItem);
+//			LOGGER.info("nouvelle tache : " + newItem);			
+//		}
 	}
 	
-	private String deleteItem(Integer index) {
-		items.remove(index);
-		return "#";
-	}
-	
-	private String updateItem(Integer index, String newDescription) {
-		items.get(index).setDescription(newDescription);
-		return "#";
-	}
-	
-	private String changeStatus(Integer index) {
-		items.get(index).setTodo(!itemBean.isTodo());
-		return "#";
-	}
-
-	private void clear() {
-		itemBean.setDescription(null);
-	}
+//	private String deleteItem() {
+//		int index = items.indexOf(itemBean);
+//		items.remove(index);
+//		return "#";
+//	}
+//
+//	private void clear() {
+//		setNewItemDescription(null);
+//	}
 	
 	public String getNewItemDescription() {
 		return newItemDescription;

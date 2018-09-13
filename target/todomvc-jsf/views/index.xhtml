@@ -13,25 +13,33 @@
 
 
 <h:body>
-	<h:form id="itemisation">
-		<h:panelGroup layout="block" id="creation">
-			<h:graphicImage value="#{DynamicsBean.listStatus}" />
-			<h:inputText value="#{itemBeanManager.newItemDescription}"
-				id="newItem" />
-			<h:commandButton action="#{itemBeanManager.createItem}" value="Add">
-				<f:ajax execute="newItem" render="itemisation" />
-			</h:commandButton>
-		</h:panelGroup>
+	<h:panelGroup layout="block" id="content">
+		<h3>TODOS</h3>
+		<h:form id="itemisation">
+			<h:panelGroup layout="block" >
+				<h:graphicImage value="#{DynamicsBean.listStatus}" />
+				<h:inputText value="#{itemBeanManager.newItemDescription}" id="createItem">
+					<f:ajax listener="#{itemBeanManager.createItem}" event="keypress" execute="createItem" render="itemisation" />
+				<!-- <h:commandButton value="submit" type="submit"
+					action="#{itemBeanManager.createItem}">
+					<f:ajax execute="createItem" render="itemisation" />
+				</h:commandButton> -->
+				</h:inputText>
+			</h:panelGroup>
 
-		<h:panelGroup layout="block" id="listing">
-			<ui:repeat var="item" value="${itemBeanManager.getItems()}">
-				<h:column>
-					<h:inputText value="#{item.description}">
-						<f:ajax event="blur" execute="@this" render="@this" />
-					</h:inputText>
-				</h:column>
-			</ui:repeat>
-		</h:panelGroup>
-	</h:form>
+			<h:panelGroup layout="block" id="listing">
+				<ui:repeat var="item" value="${itemBeanManager.getItems()}"
+					id="list">
+					<tr>
+						<td><h:inputHidden value="#{item.id}" id="id"/></td>
+						<td><h:inputText value="#{item.description}" id="desc">
+								<f:ajax event="blur" execute="id desc" render="itemisation" />
+							</h:inputText></td>
+					</tr><br/>
+				</ui:repeat>
+			</h:panelGroup>
+
+		</h:form>
+	</h:panelGroup>
 </h:body>
 </html>

@@ -1,10 +1,13 @@
 package models;
 
+import java.io.Serializable;
+
 import javax.inject.Named;
 
 @Named
-public class ItemBean {
+public class ItemBean implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String description;
 	private boolean todo;
@@ -16,7 +19,6 @@ public class ItemBean {
 	}
 	
 	public ItemBean() {
-		
 	}
 	
 	public Integer getId() {
